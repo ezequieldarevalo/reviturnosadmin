@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/globals.css";
 import App from "next/app";
-import { ApolloClientOptions, ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "@apollo/react-hooks";
 import { useApollo, initializeApollo } from "../lib/apollo";
 import { I18nProvider, IMessages } from "../contexts/I18n";
 import initialMessages from "../public/messages/es-AR.json";
@@ -49,7 +49,6 @@ function MyApp({
   return (
     <ApolloProvider client={apolloClient as any}>
       <I18nState initialLang={initialLang} initialMessages={initialMessages}>
-      
         <Component {...pageProps} />
       </I18nState>
     </ApolloProvider>
