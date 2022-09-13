@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
+    "@apollo/react-hooks": "^4.0.0",
     "@types/styled-components": "^5.1.26",
     "apollo-server-micro": "^3.10.2",
     "graphql": "^16.6.0",
