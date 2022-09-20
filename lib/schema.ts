@@ -3,51 +3,25 @@ import resolvers from './resolvers';
 import gql from 'graphql-tag';
 
 const typeDefs = gql`
-  type tTurno {
-    id: Int!
-    fecha: String!
-    hora: String!
+  type SignInResponse {
+    username: String!
+    role: String!
+    token: String!
   }
-  type QuoteObtaining {
-    plant: String!
-    tipo_vehiculo: String!
-    precio: Int!
-    turnos: [tTurno]
-    dias: [String]!
-    fecha: String
-    hora: String
-  }
-  type RescheduleResponse {
-    url_pago: String!
-  }
-  type ChangeDateResponse {
-    done: Boolean!
-  }
-  type CancelQuoteResponse {
-    done: Boolean!
+  type WhoAmIResponse {
+    username: String!
+    role: String!
   }
   type Query {
-    getQuoteData(vehicleType: String!,plant: String!,operation: String!): QuoteObtaining
+    getWhoAmI(token: String!): WhoAmIResponse
   }
+
   type Mutation {
-    doReschedule(
-      plant: String!,
-      email: String!,
-      dominio: String!,
-      nombre: String!,
-      telefono: String!,
-      anio: String!,
-      combustible: String!,
-      quoteId: Int!,
-      tipoVehiculo: String!,
-      paymentMethod: String!
-    ): RescheduleResponse
-    doChangeDate(plant: String!,email: String!, quoteId: Int!, oldQuoteId: Int!): ChangeDateResponse
-    doCancelQuote(plant: String!,email: String!, quoteId: Int!): CancelQuoteResponse
+    doSignIn(username: String!, password: String!): SignInResponse
   }
 `;
 
 export const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
+  typeDefs,
+  resolvers,
 });

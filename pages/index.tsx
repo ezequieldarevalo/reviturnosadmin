@@ -1,28 +1,42 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import useUser from '../hooks/useUser'
 import styled from 'styled-components'
 import React from 'react'
+import LogOutSection from '../components/LogOutSection'
+import LogInSection from '../components/LogInSection'
 
 const IndexHeader = styled.header`
   height: 60px;
   background-color: #0a174a;
+  color: white;
 `;
 
 const IndexMain = styled.main`
-height: 60px;
-background-color: red;
+height: 600px;
 `;
 
 const IndexFooter = styled.footer`
-height: 60px;
-background-color: yellow;
+height: 30px;
+background-color: black;
+`;
+
+const Logo = styled.footer`
+position: relative;
+float: left;
+width: 100px;
+height: 100%;
+background-color: black;
+`;
+
+const UserState = styled.div`
+position: relative;
+float: right;
+height: 100%;
 `;
 
 const Home: NextPage = () => {
-  const { pepe } = useUser();
-  console.log(pepe);
+  const { user } = useUser();
   return (
     <React.Fragment>
       <Head>
@@ -31,8 +45,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <IndexHeader>
-      </IndexHeader>
+        <Logo>
+          Logo
+        </Logo>
+        <UserState>
+          {user ? <LogOutSection /> : <LogInSection />}
+        </UserState>
+        </IndexHeader>
       <IndexMain>
+        {user? user.role : 'not logged'}
       </IndexMain>
       <IndexFooter>
       </IndexFooter>
