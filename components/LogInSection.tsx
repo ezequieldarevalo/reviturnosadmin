@@ -1,26 +1,28 @@
 import React, { useState } from 'react'
-import useUser from '../hooks/useUser';
+import useUser from '../hooks/useUser'
 
-const LogInSection = () => {
-    const {signIn } = useUser();
-    const [username,setUsername] = useState<string>('');
-    const [password,setPassword] = useState<string>('');
+const LogInSection = (): JSX.Element => {
+  const { signIn } = useUser()
+  const [username, setUsername] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
-    const handleChangeUsername = (e:any) => {
-        setUsername(e.target.value);
-    }
+  const handleChangeUsername = (e: any): void => {
+    setUsername(e.target.value)
+  }
 
-    const handleChangePassword = (e:any) => {
-        setPassword(e.target.value);
-    }
+  const handleChangePassword = (e: any): void => {
+    setPassword(e.target.value)
+  }
 
-    return (
+  return (
     <div>
-        <input type="text" onChange={handleChangeUsername} />
-        <input type="password" onChange={handleChangePassword} />
-        <button onClick={() => signIn(username, password)} type="button">Log in</button>
+      <input type="text" onChange={handleChangeUsername} />
+      <input type="password" onChange={handleChangePassword} />
+      <button onClick={() => signIn(username, password)} type="button">
+        Log in
+      </button>
     </div>
-    )
+  )
 }
 
-export default LogInSection;
+export default LogInSection

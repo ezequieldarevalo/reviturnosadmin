@@ -1,12 +1,9 @@
-import { useContext } from 'react';
+import { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
+import type { UserContextValue } from '../contexts/UserContext'
 
-function useUser()  {
-    const context = useContext(UserContext);
-    if(!context){
-        throw new Error('Not user found')
-    }
-    return context;
+function useUser (): UserContextValue {
+  return useContext(UserContext)
 }
 
-export default useUser;
+export default useUser

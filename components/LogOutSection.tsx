@@ -1,16 +1,16 @@
 import React from 'react'
-import useUser from '../hooks/useUser';
+import useUser from '../hooks/useUser'
 
-const LogOutSection = () => {
-    const {user, signOut } = useUser();
-    return (
+const LogOutSection = (): JSX.Element => {
+  const { user, signOut } = useUser()
+  return (
     <div>
-        {user.name}
-        <button onClick={() => signOut()} type="button">
-            Log Out
-        </button>
+      {user}
+      <button onClick={() => signOut()} type="button">
+        Log Out
+      </button>
     </div>
-    )
+  )
 }
 
-export default LogOutSection;
+export default LogOutSection

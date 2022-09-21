@@ -11,6 +11,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    project: ['./tsconfig.json'],
     ecmaFeatures: {
       jsx: true
     },
@@ -19,9 +20,10 @@ module.exports = {
   },
   plugins: [
     'react',
-    '@typescript-eslint'
+    '@typescript-eslint',
   ],
   rules: {
-
+    '@typescript-eslint/indent': 0,
+    '@typescript-eslint/strict-boolean-expressions': 0
   }
 }

@@ -1,96 +1,115 @@
-import React,{useState, useEffect, useMemo, useCallback} from 'react'
-import { getToken, setToken, deleteToken } from '../helpers/ls-auth';
-import doSignIn from '../lib/queries/doSignIn';
-import getWhoAmI from '../lib/queries/getWhoAmI';
-import { useLazyQuery, useMutation, FetchResult } from "@apollo/react-hooks";
-import type {SignInResponse, WhoAmIResponse} from '../lib/resolvers'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { getToken, setToken, deleteToken } from '../helpers/ls-auth'
+import doSignIn from '../lib/queries/doSignIn'
+import getWhoAmI from '../lib/queries/getWhoAmI'
+import { useLazyQuery, useMutation } from '@apollo/react-hooks'
+import type { SignInResponse, WhoAmIResponse } from '../lib/resolvers'
 
 export const UserContext = React.createContext({
-    user: null,
-    signIn: (username:string,password:string) => ({}),
-    signOut: () => ({})
-});
+  user: '',
+  role: '',
+  error: {},
+  loading: false,
+  signIn: (username: string, password: string) => ({}),
+  signOut: () => ({})
+})
 
 interface GQLSignInResponse {
-    SignIn: SignInResponse
+  SignIn: SignInResponse
 }
 
 interface GQLWhoAmIResponse {
-    WhoAmI: WhoAmIResponse
+  WhoAmI: WhoAmIResponse
 }
 
+export interface UserContextValue {
+  user: string
+  role: string
+  loading: boolean
+  error: {}
+  signIn: (username: string, password: string) => void
+  signOut: () => void
+}
 
+export function UserProvider (props: any): JSX.Element {
+  const [user, setUser] = useState<any>(null)
+  const [role, setRole] = useState<any>(null)
 
-export function UserProvider(props:any) {
-    const [user, setUser] = useState<any>(null);
-    const [loadingUser, setLoadingUser] = useState<boolean>(true);
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    async function loadUser () {
+      if (!getToken()) {
+        return
+      }
 
-    useEffect(() => {
-        async function loadUser() {
-            if(!getToken()) {
-                setLoadingUser(false);
-                return;
-            }
+      try {
+        const variables = { token: getToken() }
+        return await getWho({
+          variables
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    void loadUser()
+  }, [])
 
-            if(!user){
-                try {
-                    let variables={token: getToken()}
-                    return getWho({
-                        variables,
-                      });
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        }
-        loadUser();
-    }, [])
-
-    const [doSign, { error: errorSignIn, loading: loadingSignIn }] =
+  const [doSign, { error: errorSignIn, loading: loadingSignIn }] =
     useMutation<GQLSignInResponse>(doSignIn, {
       onError: () => {
-        console.log('error');
+        console.log('error')
       },
-      onCompleted: (data:GQLSignInResponse) => {
-        const {SignIn: user} = data;
-        const infoUser = {name: user.username, role: user.role};
-        setToken(user.token);
-        setUser(infoUser);
+      onCompleted: (data: GQLSignInResponse) => {
+        const { SignIn: user } = data
+        setToken(user.token)
+        setUser(user.username)
+        setRole(user.role)
       },
-      fetchPolicy: 'no-cache',
-    });
-    const [getWho, { error: errorWhoAmI, loading: loadingWhoAmI }] =
+      fetchPolicy: 'no-cache'
+    })
+  const [getWho, { error: errorWhoAmI, loading: loadingWhoAmI }] =
     useLazyQuery<GQLWhoAmIResponse>(getWhoAmI, {
-        onError: () => {
-          console.log('error');
-        },
-        onCompleted: (data:GQLWhoAmIResponse) => {
-          const {WhoAmI: user} = data;
-          const infoUser = {name: user.username, role: user.role};
-          setUser(infoUser);
-        },
-        fetchPolicy: 'no-cache',
-      });
+      onError: () => {
+        setUser(null)
+        deleteToken()
+      },
+      onCompleted: (data: GQLWhoAmIResponse) => {
+        const { WhoAmI: user } = data
+        setUser(user.username)
+        setRole(user.role)
+      },
+      fetchPolicy: 'no-cache'
+    })
 
-    const signIn = useCallback((username:string, password:string) => {
-        const variables = {
-            username,
-            password
-        };
-        return doSign({
-            variables,
-          });
-    },[]);
+  const signIn = useCallback(async (username: string, password: string) => {
+    const variables = {
+      username,
+      password
+    }
+    return await doSign({
+      variables
+    })
+  }, [])
 
-    const signOut = useCallback(() => {
-        setUser(null);
-        deleteToken();
-    }, []);
+  const signOut = useCallback(() => {
+    setUser(null)
+    deleteToken()
+  }, [])
 
-    const value = useMemo(() => {
-        return { user, signIn, signOut }
-    }, [user, signIn, signOut]);
+  const error = errorSignIn != null || errorWhoAmI
 
-    return <UserContext.Provider value={value} {...props} />
+  const loading = loadingSignIn || loadingWhoAmI
+
+  const value = useMemo(() => {
+    return {
+      user,
+      role,
+      error,
+      loading,
+      signIn,
+      signOut
+    }
+  }, [user, role, error, loading, signIn, signOut])
+
+  return <UserContext.Provider value={value} {...props} />
 }
-
