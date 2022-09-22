@@ -21,11 +21,13 @@ export interface SignInResponse {
     username: string
     role: string
     token: string
+    postulantId?: string
 }
 
 export interface WhoAmIResponse {
     username: string
     role: string
+    postulantId?: string
 }
 
 const Query = {
@@ -66,7 +68,7 @@ const Query = {
             })
         } else {
             const data = await response.json()
-            const result = { username: data.username, role: data.role }
+            const result = { username: data.username, role: data.role, postulantId: data.postulantId }
             return result
         }
     }
@@ -120,7 +122,12 @@ const Mutation = {
             })
         } else {
             const data = await response.json()
-            const result = { username: data.username, role: data.role, token: data.token }
+            const result = {
+                username: data.username,
+                role: data.role,
+                token: data.token,
+                postulantId: data.postulantId || undefined
+            }
             return result
         }
     }

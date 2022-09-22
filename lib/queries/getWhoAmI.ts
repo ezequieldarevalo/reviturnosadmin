@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export default gql`
   query getWhoAmI(
@@ -9,6 +9,7 @@ export default gql`
     ) {
       username
       role
+      postulantId
     }
   }
-`;
+`

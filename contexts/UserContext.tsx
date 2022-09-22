@@ -8,6 +8,7 @@ import type { SignInResponse, WhoAmIResponse } from '../lib/resolvers'
 export const UserContext = React.createContext({
   user: '',
   role: '',
+  postulantId: -1,
   error: {},
   loading: false,
   signIn: (username: string, password: string) => ({}),
@@ -25,6 +26,7 @@ interface GQLWhoAmIResponse {
 export interface UserContextValue {
   user: string
   role: string
+  postulantId: number
   loading: boolean
   error: {}
   signIn: (username: string, password: string) => void
@@ -34,10 +36,12 @@ export interface UserContextValue {
 export function UserProvider (props: any): JSX.Element {
   const [user, setUser] = useState<any>(null)
   const [role, setRole] = useState<any>(null)
+  const [postulantId, setPostulantId] = useState<any>(-1)
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     async function loadUser () {
+      console.log('useEffect', getToken())
       if (!getToken()) {
         return
       }
@@ -61,9 +65,11 @@ export function UserProvider (props: any): JSX.Element {
       },
       onCompleted: (data: GQLSignInResponse) => {
         const { SignIn: user } = data
+        const postulantId = user.postulantId ? user.postulantId : null
         setToken(user.token)
         setUser(user.username)
         setRole(user.role)
+        setPostulantId(postulantId)
       },
       fetchPolicy: 'no-cache'
     })
@@ -75,8 +81,10 @@ export function UserProvider (props: any): JSX.Element {
       },
       onCompleted: (data: GQLWhoAmIResponse) => {
         const { WhoAmI: user } = data
+        const postulantId = user.postulantId ? user.postulantId : null
         setUser(user.username)
         setRole(user.role)
+        setPostulantId(postulantId)
       },
       fetchPolicy: 'no-cache'
     })
@@ -93,6 +101,8 @@ export function UserProvider (props: any): JSX.Element {
 
   const signOut = useCallback(() => {
     setUser(null)
+    setRole(null)
+    setPostulantId(null)
     deleteToken()
   }, [])
 
@@ -104,12 +114,13 @@ export function UserProvider (props: any): JSX.Element {
     return {
       user,
       role,
+      postulantId,
       error,
       loading,
       signIn,
       signOut
     }
-  }, [user, role, error, loading, signIn, signOut])
+  }, [user, role, postulantId, error, loading, signIn, signOut])
 
   return <UserContext.Provider value={value} {...props} />
 }

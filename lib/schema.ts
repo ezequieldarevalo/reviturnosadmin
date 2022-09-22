@@ -7,10 +7,12 @@ const typeDefs = gql`
     username: String!
     role: String!
     token: String!
+    postulantId: String
   }
   type WhoAmIResponse {
     username: String!
     role: String!
+    postulantId: String
   }
   type Query {
     getWhoAmI(token: String!): WhoAmIResponse

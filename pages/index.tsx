@@ -9,6 +9,7 @@ import LoaderOverlay from '../components/LoaderOverlay'
 import Admin from '../components/Admin'
 import Postulant from '../components/Postulant'
 import Company from '../components/Company'
+import { PostulantProvider } from '../contexts/PostulantContext'
 
 const IndexHeader = styled.header`
   height: 60px;
@@ -25,14 +26,6 @@ const IndexFooter = styled.footer`
   background-color: black;
 `
 
-// const Logo = styled.footer`
-//   position: relative;
-//   float: left;
-//   width: 100px;
-//   height: 100%;
-//   background-color: black;
-// `
-
 const UserState = styled.div`
   position: relative;
   float: right;
@@ -41,7 +34,7 @@ const UserState = styled.div`
 `
 
 const Home: NextPage = () => {
-  const { user, role, loading } = useUser()
+  const { user, role, postulantId, loading } = useUser()
   return (
     <>
       <Head>
@@ -53,11 +46,16 @@ const Home: NextPage = () => {
         {/* <Logo>
           Logo
         </Logo> */}
-        <UserState>{user ? <LogOutSection /> : <LogInSection />}</UserState>
+        <UserState>
+          {user ? <LogOutSection /> : <LogInSection />}
+        </UserState>
       </IndexHeader>
-      <LoaderOverlay loading={loading}>
+        <LoaderOverlay loading={loading}>
         <IndexMain>
-          {role && role === 'postulant' && <Postulant />}
+          {role && role === 'postulant' &&
+          <PostulantProvider id={postulantId}>
+            <Postulant />
+          </PostulantProvider>}
           {role && role === 'admin' && <Admin />}
           {role && role === 'company' && <Company />}
         </IndexMain>

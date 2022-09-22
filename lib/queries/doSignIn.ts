@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from 'graphql-tag'
 
 export default gql`
   mutation doSignIn(
@@ -12,6 +12,7 @@ export default gql`
       username
       role
       token
+      postulantId
     }
   }
-`;
+`
