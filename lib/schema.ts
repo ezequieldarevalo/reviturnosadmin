@@ -14,8 +14,12 @@ const typeDefs = gql`
     role: String!
     postulantId: String
   }
+  type PostulantStateResponse {
+    state: String!
+  }
   type Query {
     getWhoAmI(token: String!): WhoAmIResponse
+    getPostulantState(id: String!, token: String!): PostulantStateResponse
   }
 
   type Mutation {

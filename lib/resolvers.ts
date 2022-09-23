@@ -17,6 +17,11 @@ interface getWhoAmIArgs {
     token: string
 }
 
+interface getPostulantStateArgs {
+    id: string
+    token: string
+}
+
 export interface SignInResponse {
     username: string
     role: string
@@ -28,6 +33,10 @@ export interface WhoAmIResponse {
     username: string
     role: string
     postulantId?: string
+}
+
+export interface PostulantStateResponse {
+    state: string
 }
 
 const Query = {
@@ -69,6 +78,47 @@ const Query = {
         } else {
             const data = await response.json()
             const result = { username: data.username, role: data.role, postulantId: data.postulantId }
+            return result
+        }
+    },
+    async getPostulantState(__parent: unknown, _args: getPostulantStateArgs): Promise<PostulantStateResponse> {
+        const backendUrl: string = getConfig().serverRuntimeConfig.backendUrl
+        const suffixUrl: string = '/postulant/' + _args.id + '/state'
+        const destinationEndpoint = backendUrl + suffixUrl
+
+        const headers = {
+            Authorization: 'Bearer ' + _args.token
+        }
+
+        const requestOptions = {
+            method: 'GET',
+            headers
+        }
+
+        const response = await fetch(destinationEndpoint, requestOptions)
+        if (!response.ok) {
+            if (response.status === 400) {
+                throw new ApolloError('', BAD_REQUEST, {
+                    details: {
+                        reason: BAD_REQUEST
+                    }
+                })
+            }
+            if (response.status === 500) {
+                throw new ApolloError('', INTERNAL_ERROR_SERVER, {
+                    details: {
+                        reason: INTERNAL_ERROR_SERVER
+                    }
+                })
+            }
+            throw new ApolloError('', UNKNOWN_ERROR, {
+                details: {
+                    reason: UNKNOWN_ERROR
+                }
+            })
+        } else {
+            const data = await response.json()
+            const result = { state: data.state }
             return result
         }
     }
