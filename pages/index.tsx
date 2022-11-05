@@ -60,7 +60,7 @@ const Home: NextPage = () => {
           {role && role === 'company' && <Company />}
         </IndexMain>
       </LoaderOverlay>
-      <IndexFooter></IndexFooter>
+      {/* <IndexFooter></IndexFooter> */}
     </>
   )
 }

@@ -11,8 +11,13 @@
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@apollo/react-hooks": "^4.0.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.9",
+    "@mui/x-date-pickers": "^5.0.4",
     "@types/styled-components": "^5.1.26",
     "apollo-server-micro": "^3.10.2",
+    "dayjs": "^1.11.5",
     "graphql": "^16.6.0",
     "micro": "^9.4.1",
     "micro-cors": "^0.1.1",

@@ -47,7 +47,7 @@ const ContainerChildren = styled.div`
 
 interface GreyStepBoxProps {
   withModify?: boolean
-  modifyFunction: () => void
+  modifyFunction?: () => void
   children: JSX.Element
 }
 
@@ -60,7 +60,7 @@ function GreyStepBox ({
     <ContainerGreyStepBox>
       <ContainerChildren>{children}</ContainerChildren>
       {withModify && (
-        <Modify onClick={() => modifyFunction()}>Modificar</Modify>
+        <Modify onClick={() => modifyFunction ? modifyFunction() : null}>Modificar</Modify>
       )}
     </ContainerGreyStepBox>
   )
