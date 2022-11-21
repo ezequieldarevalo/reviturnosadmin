@@ -1,14 +1,35 @@
+import plants from '../lib/config/plants'
+import Cookies from 'js-cookie'
+
 export const getToken = (): string | boolean => {
-    const token = localStorage.getItem('token')
+    const token = Cookies.get('token')
     if (token) return token
     return false
 }
 
+export const getPlantId = (): string => {
+    const plantId = Cookies.get('plantId')
+    if (plantId) return plantId
+    return ''
+}
+
 export const setToken = (token: string): void => {
-    console.log('daaaa')
-    localStorage.setItem('token', token)
+    Cookies.set('token', token)
+}
+
+export const setPlantId = (plantId: string): void => {
+    Cookies.set('plantId', plantId)
 }
 
 export const deleteToken = (): void => {
-    localStorage.removeItem('token')
+    Cookies.remove('token')
+}
+
+export const deletePlantId = (): void => {
+    Cookies.remove('plantId')
+}
+
+export const getBackendUrlFromPlantId = (plantId: string): string => {
+    if (plantId) return plants.find(({ id }) => id === plantId)?.backendUrl ?? ''
+    return ''
 }

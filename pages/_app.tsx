@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../styles/globals.css'
 import App from 'next/app'
 import { ApolloProvider } from '@apollo/react-hooks'
@@ -16,7 +16,7 @@ interface II18nStateProps {
   children: any
 }
 
-function I18nState ({
+function I18nState({
   initialLang,
   initialMessages,
   children
@@ -42,7 +42,7 @@ interface IProps extends AppProps {
   initialApolloState: NormalizedCacheObject
 }
 
-function MyApp ({
+function MyApp({
   Component,
   pageProps,
   initialLang,
@@ -50,16 +50,26 @@ function MyApp ({
   initialApolloState
 }: IProps): JSX.Element {
   const apolloClient = useApollo(initialApolloState)
+  const [showChild, setShowChild] = useState(false)
+  useEffect(() => {
+    setShowChild(true)
+  }, [])
 
-  return (
-    <ApolloProvider client={apolloClient as any}>
-      <I18nState initialLang={initialLang} initialMessages={initialMessages}>
-      <UserProvider>
-        <Component {...pageProps} />
-      </UserProvider>
-      </I18nState>
-    </ApolloProvider>
-  )
+  if (!showChild) {
+    return null as any
+  }
+
+  if (typeof window === 'undefined') { return <></> } else {
+    return (
+      <ApolloProvider client={apolloClient as any}>
+        <I18nState initialLang={initialLang} initialMessages={initialMessages}>
+          <UserProvider>
+            <Component {...pageProps} />
+          </UserProvider>
+        </I18nState>
+      </ApolloProvider>
+    )
+  }
 }
 
 MyApp.getInitialProps = async (appContext: any) => {

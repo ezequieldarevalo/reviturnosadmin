@@ -3,6 +3,7 @@
 
 import getConfig from 'next/config'
 import { ApolloError } from 'apollo-server-errors'
+import { getBackendUrlFromPlantId } from '../helpers/ls-auth'
 
 const BAD_REQUEST = 'BAD_REQUEST'
 const INTERNAL_ERROR_SERVER = 'INTERNAL_ERROR_SERVER'
@@ -11,11 +12,12 @@ const UNKNOWN_ERROR = 'UNKNOWN_ERROR'
 interface DoSignInArgs {
     email: string
     password: string
-    plant: string
+    plantId: string
 }
 
 interface getWhoAmIArgs {
     token: string
+    plantId: string
 }
 
 interface getPostulantStateArgs {
@@ -26,10 +28,13 @@ interface getPostulantStateArgs {
 export interface SignInResponse {
     name: string
     access_token: string
+    backendUrl: string
+    plantId: string
 }
 
 export interface WhoAmIResponse {
     name: string
+    backendUrl: string
 }
 
 export interface PostulantStateResponse {
@@ -38,7 +43,7 @@ export interface PostulantStateResponse {
 
 const Query = {
     async getWhoAmI(__parent: unknown, _args: getWhoAmIArgs): Promise<WhoAmIResponse> {
-        const backendUrl: string = getConfig().serverRuntimeConfig.backendUrl
+        const backendUrl: string = getBackendUrlFromPlantId(_args.plantId)
         const suffixUrl: string = '/api/auth/user'
         const destinationEndpoint = backendUrl + suffixUrl
 
@@ -50,6 +55,7 @@ const Query = {
             method: 'GET',
             headers
         }
+        console.log(destinationEndpoint, requestOptions)
         const response = await fetch(destinationEndpoint, requestOptions)
         if (!response.ok) {
             if (response.status === 400) {
@@ -73,7 +79,10 @@ const Query = {
             })
         } else {
             const data = await response.json()
-            const result = { name: data.name }
+            const result = {
+                name: data.name,
+                backendUrl
+            }
             return result
         }
     },
@@ -126,7 +135,8 @@ const Mutation = {
         __parent: unknown,
         _args: DoSignInArgs
     ): Promise<SignInResponse> {
-        const backendUrl: string = getConfig().serverRuntimeConfig.backendUrl
+        const plantId = _args.plantId
+        const backendUrl: string = getBackendUrlFromPlantId(plantId)
         const suffixUrl: string = '/api/auth/login'
         const destinationEndpoint: string = backendUrl + suffixUrl
 
@@ -144,7 +154,7 @@ const Mutation = {
             headers,
             body: JSON.stringify(bodyData)
         }
-
+        console.log(destinationEndpoint, requestOptions)
         const response = await fetch(destinationEndpoint, requestOptions)
         if (!response.ok) {
             if (response.status === 400) {
@@ -170,9 +180,10 @@ const Mutation = {
             const data = await response.json()
             const result = {
                 name: data.name,
-                access_token: data.access_token
+                access_token: data.access_token,
+                backendUrl,
+                plantId
             }
-            console.log(result)
             return result
         }
     }

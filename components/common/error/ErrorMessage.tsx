@@ -16,7 +16,7 @@ import { MessageTitle } from '../styles/UtilsStyles'
 // const DEFAULT_VALUE = "default";
 // const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
-function ErrorMessage (): JSX.Element {
+function ErrorMessage(): JSX.Element {
   const { error } = usePostulant()
 
   const errorDetails: IError = getErrorDetails(
@@ -30,11 +30,11 @@ function ErrorMessage (): JSX.Element {
         />
       </MessageTitle>
 
-      <p>
+      <div>
         <I18n
           id={`app.quoteObtaining.error.${errorDetails.reason}.message`}
         />
-      </p>
+      </div>
       <br />
     </>
   )

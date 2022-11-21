@@ -4,15 +4,17 @@ export default gql`
   mutation doSignIn(
     $email: String!,
     $password: String!,
-    $plant: String!
+    $plantId: String!
   ) {
     SignIn: doSignIn(
       email: $email,
       password: $password,
-      plant: $plant
+      plantId: $plantId
     ) {
       name
       access_token
+      backendUrl
+      plantId
     }
   }
 `

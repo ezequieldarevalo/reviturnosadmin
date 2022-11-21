@@ -4,10 +4,12 @@ import useUser from '../hooks/useUser'
 import React from 'react'
 import Login from '../components/Login'
 import Home from '../components/Home'
+import { getToken, getPlantId } from '../helpers/ls-auth'
 
 const Start: NextPage = () => {
   const { user } = useUser()
-  console.log(user)
+
+  if (getToken() && getPlantId()) return <Home />
   return (
     <>
       <Head>

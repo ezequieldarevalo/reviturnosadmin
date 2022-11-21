@@ -6,20 +6,23 @@ const typeDefs = gql`
   type SignInResponse {
     name: String!
     access_token: String!
+    backendUrl: String!
+    plantId: String!
   }
   type WhoAmIResponse {
     name: String!
+    backendUrl: String!
   }
   type PostulantStateResponse {
     state: String!
   }
   type Query {
-    getWhoAmI(token: String!): WhoAmIResponse
+    getWhoAmI(token: String!, plantId: String!): WhoAmIResponse
     getPostulantState(id: String!, token: String!): PostulantStateResponse
   }
 
   type Mutation {
-    doSignIn(email: String!, password: String!, plant: String!): SignInResponse
+    doSignIn(email: String!, password: String!, plantId: String!): SignInResponse
   }
 `
 

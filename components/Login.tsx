@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import useUser from '../hooks/useUser'
+import plants from '../lib/config/plants'
+
+const defaultSelect = 'Seleccione su planta'
 
 const StyledMain = styled.main`
     display: flex;
@@ -35,9 +38,10 @@ const StyledButton = styled.button`
 `
 
 const Login = (): JSX.Element => {
-    const { signIn } = useUser()
+    const { error, signIn } = useUser()
     const [email, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const [plantId, setPlantId] = useState<string>('')
 
     const handleChangeUsername = (e: any): void => {
         setUsername(e.target.value)
@@ -47,13 +51,18 @@ const Login = (): JSX.Element => {
         setPassword(e.target.value)
     }
 
+    const handleChangeBackendUrl = (e: any): void => {
+        setPlantId(e.target.value)
+    }
+
     const handleSubmit = (e: any): void => {
         e.preventDefault()
-        signIn(email, password, 'pepe')
+        console.log(email, password, plantId)
+        signIn(email, password, plantId)
     }
     return (
         <StyledMain>
-            <StyledForm onClick={handleSubmit}>
+            <StyledForm onSubmit={handleSubmit}>
                 <StyledInput
                     type='text'
                     placeholder='Usuario'
@@ -66,14 +75,23 @@ const Login = (): JSX.Element => {
                     value={password}
                     onChange={handleChangePassword}></StyledInput>
                 <br />
-                <SelectInput>
-                    <OptionInput>Seleccione su planta</OptionInput>
-                    <OptionInput>Revitotal - Las Heras</OptionInput>
-                    <OptionInput>Revitotal - Maipu</OptionInput>
-                    <OptionInput>RTVO - Godoy Cruz</OptionInput>
+                <SelectInput onChange={handleChangeBackendUrl}>
+                    <OptionInput key={defaultSelect} value={plantId}>
+                        {defaultSelect}
+                    </OptionInput>
+                    {
+                        plants.map((plant) => (
+                            <OptionInput key={plant.name} value={plant.id}>
+                                {plant.name}
+                            </OptionInput>
+                        )
+                        )
+                    }
                 </SelectInput>
                 <br />
                 <StyledButton type="submit">Ingresar</StyledButton>
+                <br />
+                {error && 'Error'}
             </StyledForm>
         </StyledMain>
     )
