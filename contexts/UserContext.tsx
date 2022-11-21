@@ -5,7 +5,6 @@ import {
   setPlantId,
   deleteToken,
   deletePlantId,
-  getBackendUrlFromPlantId,
   getPlantId
 } from '../helpers/ls-auth'
 import doSignIn from '../lib/queries/doSignIn'
@@ -39,13 +38,14 @@ export interface UserContextValue {
   signOut: () => void
 }
 
+// eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export function UserProvider(props: any): JSX.Element {
   const [user, setUser] = useState<string>('')
   const [backendUrl, setBackendUrl] = useState<string>('')
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    async function loadUser() {
+    const loadUser = async () => {
       if (!getToken() || !getPlantId()) {
         return signOut()
       }
@@ -108,7 +108,7 @@ export function UserProvider(props: any): JSX.Element {
     setBackendUrl('')
   }, [])
 
-  const error = errorSignIn || errorWhoAmI
+  const error = errorSignIn ?? errorWhoAmI
 
   const loading = loadingSignIn || loadingWhoAmI
 

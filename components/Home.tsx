@@ -1,14 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
-import useUser from '../hooks/useUser'
 import LogOutSection from '../components/LogOutSection'
+import AdminPage from './AdminPage'
+import Brand from './Brand'
+import AppName from './AppName'
+import AdminPanel from './AdminPanel'
+import { NavigationProvider } from '../contexts/NavigationContext'
+import useNavigation from '../hooks/useNavigation'
+import ParamPage from './ParamPage'
+
+const Top = styled.div`
+  height: 70px;
+  border-bottom: 1px solid #e6e8eb;
+  padding-left: 30px;
+  padding-right: 30px;
+`
 
 const IndexHeader = styled.header`
-  height: 60px;
-  border-bottom: 1px solid black;
+  border: 1px solid #e6e8eb;
+
 `
 
 const IndexMain = styled.main`
+float: left;
   height: 600px;
 `
 const UserState = styled.div`
@@ -18,20 +32,30 @@ const UserState = styled.div`
   line-height: 50px;
 `
 
-const Home = (): JSX.Element => {
-    const { user } = useUser()
-    return (
-        <>
-            <IndexHeader>
-                <UserState>
-                    {user ? <LogOutSection /> : 'User'}
-                </UserState>
-            </IndexHeader>
-            <IndexMain>
-
-            </IndexMain>
-        </>
-    )
+const HomeWithoutNavProvider = (): JSX.Element => {
+  const { activeSection } = useNavigation()
+  return (
+    <>
+      <IndexHeader>
+        <Top>
+          <Brand />
+          <AppName />
+          <UserState>
+            <LogOutSection />
+          </UserState>
+        </Top>
+        <AdminPanel />
+      </IndexHeader>
+      <IndexMain>
+        {activeSection === 'turnos' && <AdminPage />}
+        {activeSection === 'parametros' && <ParamPage />}
+      </IndexMain>
+    </>
+  )
 }
+
+const Home = (): JSX.Element => (<NavigationProvider>
+  <HomeWithoutNavProvider />
+</NavigationProvider>)
 
 export default Home

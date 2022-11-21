@@ -7,8 +7,7 @@ import spanishMessages from '../public/messages/es-AR.json'
 import type { AppProps } from 'next/app'
 import { NormalizedCacheObject } from '@apollo/client'
 import { UserProvider } from '../contexts/UserContext'
-import { I18nProvider, IMessages } from 'contexts/I18n'
-import initialMessages from '../public/messages/es-AR.json'
+import { I18nProvider, IMessages } from '../contexts/I18n'
 
 interface II18nStateProps {
   initialLang: string
@@ -16,11 +15,11 @@ interface II18nStateProps {
   children: any
 }
 
-function I18nState({
+const I18nState = ({
   initialLang,
   initialMessages,
   children
-}: II18nStateProps): JSX.Element {
+}: II18nStateProps): JSX.Element => {
   const [lang] = useState(initialLang)
   const [messages] = useState(initialMessages)
 
@@ -42,13 +41,13 @@ interface IProps extends AppProps {
   initialApolloState: NormalizedCacheObject
 }
 
-function MyApp({
+const MyApp = ({
   Component,
   pageProps,
   initialLang,
   // initialMessages,
   initialApolloState
-}: IProps): JSX.Element {
+}: IProps): JSX.Element => {
   const apolloClient = useApollo(initialApolloState)
   const [showChild, setShowChild] = useState(false)
   useEffect(() => {
@@ -62,7 +61,7 @@ function MyApp({
   if (typeof window === 'undefined') { return <></> } else {
     return (
       <ApolloProvider client={apolloClient as any}>
-        <I18nState initialLang={initialLang} initialMessages={initialMessages}>
+        <I18nState initialLang={initialLang} initialMessages={spanishMessages}>
           <UserProvider>
             <Component {...pageProps} />
           </UserProvider>

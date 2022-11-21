@@ -60,6 +60,7 @@ const Login = (): JSX.Element => {
         console.log(email, password, plantId)
         signIn(email, password, plantId)
     }
+
     return (
         <StyledMain>
             <StyledForm onSubmit={handleSubmit}>
