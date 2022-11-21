@@ -7,9 +7,7 @@ export default gql`
     WhoAmI: getWhoAmI(
       token: $token,
     ) {
-      username
-      role
-      postulantId
+      name
     }
   }
 `

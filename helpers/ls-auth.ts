@@ -5,6 +5,7 @@ export const getToken = (): string | boolean => {
 }
 
 export const setToken = (token: string): void => {
+    console.log('daaaa')
     localStorage.setItem('token', token)
 }
 

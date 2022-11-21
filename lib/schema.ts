@@ -4,15 +4,11 @@ import gql from 'graphql-tag'
 
 const typeDefs = gql`
   type SignInResponse {
-    username: String!
-    role: String!
-    token: String!
-    postulantId: String
+    name: String!
+    access_token: String!
   }
   type WhoAmIResponse {
-    username: String!
-    role: String!
-    postulantId: String
+    name: String!
   }
   type PostulantStateResponse {
     state: String!
@@ -23,7 +19,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    doSignIn(username: String!, password: String!): SignInResponse
+    doSignIn(email: String!, password: String!, plant: String!): SignInResponse
   }
 `
 

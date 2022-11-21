@@ -9,8 +9,9 @@ const INTERNAL_ERROR_SERVER = 'INTERNAL_ERROR_SERVER'
 const UNKNOWN_ERROR = 'UNKNOWN_ERROR'
 
 interface DoSignInArgs {
-    username: string
+    email: string
     password: string
+    plant: string
 }
 
 interface getWhoAmIArgs {
@@ -23,16 +24,12 @@ interface getPostulantStateArgs {
 }
 
 export interface SignInResponse {
-    username: string
-    role: string
-    token: string
-    postulantId?: string
+    name: string
+    access_token: string
 }
 
 export interface WhoAmIResponse {
-    username: string
-    role: string
-    postulantId?: string
+    name: string
 }
 
 export interface PostulantStateResponse {
@@ -42,7 +39,7 @@ export interface PostulantStateResponse {
 const Query = {
     async getWhoAmI(__parent: unknown, _args: getWhoAmIArgs): Promise<WhoAmIResponse> {
         const backendUrl: string = getConfig().serverRuntimeConfig.backendUrl
-        const suffixUrl: string = '/whoami'
+        const suffixUrl: string = '/api/auth/user'
         const destinationEndpoint = backendUrl + suffixUrl
 
         const headers = {
@@ -53,7 +50,6 @@ const Query = {
             method: 'GET',
             headers
         }
-
         const response = await fetch(destinationEndpoint, requestOptions)
         if (!response.ok) {
             if (response.status === 400) {
@@ -77,7 +73,7 @@ const Query = {
             })
         } else {
             const data = await response.json()
-            const result = { username: data.username, role: data.role, postulantId: data.postulantId }
+            const result = { name: data.name }
             return result
         }
     },
@@ -131,11 +127,11 @@ const Mutation = {
         _args: DoSignInArgs
     ): Promise<SignInResponse> {
         const backendUrl: string = getConfig().serverRuntimeConfig.backendUrl
-        const suffixUrl: string = '/signin'
+        const suffixUrl: string = '/api/auth/login'
         const destinationEndpoint: string = backendUrl + suffixUrl
 
         const bodyData = {
-            email: _args.username,
+            email: _args.email,
             password: _args.password
         }
 
@@ -173,11 +169,10 @@ const Mutation = {
         } else {
             const data = await response.json()
             const result = {
-                username: data.username,
-                role: data.role,
-                token: data.token,
-                postulantId: data.postulantId || undefined
+                name: data.name,
+                access_token: data.access_token
             }
+            console.log(result)
             return result
         }
     }

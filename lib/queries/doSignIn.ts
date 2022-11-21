@@ -2,17 +2,17 @@ import gql from 'graphql-tag'
 
 export default gql`
   mutation doSignIn(
-    $username: String!,
-    $password: String!
+    $email: String!,
+    $password: String!,
+    $plant: String!
   ) {
     SignIn: doSignIn(
-      username: $username,
+      email: $email,
       password: $password,
+      plant: $plant
     ) {
-      username
-      role
-      token
-      postulantId
+      name
+      access_token
     }
   }
 `
