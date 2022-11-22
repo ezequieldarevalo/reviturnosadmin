@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { getPlantName } from '../helpers/ls-auth'
 
 const NavContainer = styled.div`
     display: flex;
@@ -15,7 +16,7 @@ const NavContainer = styled.div`
 
 const AppName = (): JSX.Element => {
     return (<NavContainer>
-        Administración
+        Administración {' ' + getPlantName()}
     </NavContainer>
     )
 }

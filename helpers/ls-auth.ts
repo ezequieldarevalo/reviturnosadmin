@@ -13,6 +13,12 @@ export const getPlantId = (): string => {
     return ''
 }
 
+export const getPlantName = (): string => {
+    const plantId = getPlantId()
+    if (plantId) return plants.find(({ id }) => id === plantId)?.name ?? ''
+    return ''
+}
+
 export const setToken = (token: string): void => {
     Cookies.set('token', token)
 }

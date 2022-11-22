@@ -9,6 +9,10 @@ import { NavigationProvider } from '../contexts/NavigationContext'
 import useNavigation from '../hooks/useNavigation'
 import ParamPage from './ParamPage'
 
+const HomeContainer = styled.div`
+//font-family
+`
+
 const Top = styled.div`
   height: 70px;
   border-bottom: 1px solid #e6e8eb;
@@ -35,7 +39,7 @@ const UserState = styled.div`
 const HomeWithoutNavProvider = (): JSX.Element => {
   const { activeSection } = useNavigation()
   return (
-    <>
+    <HomeContainer>
       <IndexHeader>
         <Top>
           <Brand />
@@ -50,7 +54,7 @@ const HomeWithoutNavProvider = (): JSX.Element => {
         {activeSection === 'turnos' && <AdminPage />}
         {activeSection === 'parametros' && <ParamPage />}
       </IndexMain>
-    </>
+    </HomeContainer>
   )
 }
 
