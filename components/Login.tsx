@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import useUser from '../hooks/useUser'
 import plants from '../lib/config/plants'
-import { Alert, Button, Form, Card } from 'react-bootstrap'
+import { Alert, Button, Form, Card, InputGroup } from 'react-bootstrap'
 import ErrorMessage from './common/error/ErrorMessage'
 import LogIn from './common/icons/LogIn'
+import Person from './common/icons/Person'
+import Key from './common/icons/Key'
+import Truck from './common/icons/Truck'
 
 const defaultSelect = 'Seleccione su planta'
 
@@ -45,30 +48,32 @@ const Login = (): JSX.Element => {
     return (
         <StyledMain>
             <Card>
-
+                <Card.Header style={{ fontSize: '28px' }}><Truck />&nbsp;&nbsp;REVITURNOS&nbsp;&nbsp;<span style={{ fontSize: '20px' }}>Admin</span></Card.Header>
                 <Card.Body>
-                    <Card.Title>REVITURNOS - Inicio de sesión</Card.Title>
+                    <Card.Title>Inicio de sesión</Card.Title>
                     <Card.Text>
                         <Form onSubmit={handleSubmit}>
-                            {/* <Input
-                    type='text'
-                    placeholder='Usuario'
-                    value={email}
-                    onChange={handleChangeUsername}></Input>
-                <br /> */}
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Usuario</Form.Label>
-                                <Form.Control onChange={handleChangeUsername} value={email} type="email" placeholder="Ingrese usuario" />
-                            </Form.Group>
-                            {/* <StyledInput
-                    type='password'
-                    placeholder='Contraseña'
-                    value={password}
-                    onChange={handleChangePassword}></StyledInput> */}
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Contraseña</Form.Label>
-                                <Form.Control onChange={handleChangePassword} value={password} type="password" placeholder="Ingrese contraseña" />
-                            </Form.Group>
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="basic-addon1"><Person /></InputGroup.Text>
+                                <Form.Control
+                                    onChange={handleChangeUsername}
+                                    value={email}
+                                    placeholder="Usuario"
+                                    aria-label="Usuario"
+                                    aria-describedby="basic-addon1"
+                                />
+                            </InputGroup>
+                            <InputGroup className="mb-3">
+                                <InputGroup.Text id="basic-addon1"><Key /></InputGroup.Text>
+                                <Form.Control
+                                    type="password"
+                                    onChange={handleChangePassword}
+                                    value={password}
+                                    placeholder="Contraseña"
+                                    aria-label="Contraseña"
+                                    aria-describedby="basic-addon1"
+                                />
+                            </InputGroup>
                             <hr />
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Select onChange={handleChangeBackendUrl}>
