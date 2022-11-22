@@ -1,6 +1,7 @@
 import React from 'react'
 import useUser from '../hooks/useUser'
 import styled from 'styled-components'
+import { Button } from 'react-bootstrap'
 
 const LogOutSectionContainer = styled.div`
   display:flex;
@@ -8,23 +9,17 @@ const LogOutSectionContainer = styled.div`
   height: 100%;
 `
 
-const StyledButton = styled.button`
-  cursor: pointer;
-  border: 1px solid grey;
-  background: #e6e8eb;
-  padding:8px;
-  margin-left: 7px;
-  border-radius: 5px;
-`
-
 const LogOutSection = (): JSX.Element => {
-  const { user, signOut } = useUser()
+  const { user, signOut, loading } = useUser()
   return (
     <LogOutSectionContainer>
       {user}
-      <StyledButton onClick={() => signOut()} type="button">
+      <Button
+        disabled={loading}
+        style={{ marginLeft: '15px', fontSize: '13px', padding: '8px' }}
+        variant={'danger'} onClick={() => signOut()}>
         Salir
-      </StyledButton>
+      </Button>
     </LogOutSectionContainer>
   )
 }

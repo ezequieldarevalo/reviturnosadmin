@@ -166,7 +166,7 @@ const ChooseMessage = styled.div`
 //   padding-left: 8px;
 // `
 
-function GiveStudiesData (): JSX.Element {
+function GiveStudiesData(): JSX.Element {
   const { personalData, studiesData, onSubmitStudiesData, onModifyPersonalData } = usePostulant()
 
   const [studiesDataList, setStudiesDataList] = useState<IStudyData[]>(studiesData)
@@ -274,7 +274,7 @@ function GiveStudiesData (): JSX.Element {
         </div>
       </GreyStepBox>
       <StepTitle stepNumber={2}>
-      <I18n id="app.postulant.personalData.title2" />
+        <I18n id="app.postulant.personalData.title2" />
       </StepTitle>
       <GreyStepBox>
         <>
@@ -307,17 +307,17 @@ function GiveStudiesData (): JSX.Element {
           {visibleSection === 'add' &&
             <AddStudy>
               Add study
-              <button onClick={() => console.log('pepe')}>
-              <InputSection>
-            <InputLabel>
-            <I18n id="app.postulant.personalData.subtitle.name" />
-            </InputLabel>
-            <TextInput
-              value={name}
-              onChange={(e) => onChangeName(e.target.value)}
-              width={250}
-            ></TextInput>
-          </InputSection>
+              <button>
+                <InputSection>
+                  <InputLabel>
+                    <I18n id="app.postulant.personalData.subtitle.name" />
+                  </InputLabel>
+                  <TextInput
+                    value={name}
+                    onChange={(e) => onChangeName(e.target.value)}
+                    width={250}
+                  ></TextInput>
+                </InputSection>
               </button>
             </AddStudy>
           }

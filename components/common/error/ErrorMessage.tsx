@@ -1,7 +1,7 @@
 import React from 'react'
 
 import I18n from '../../../components/common/I18n'
-import usePostulant from '../../../hooks/usePostulant'
+import useUser from '../../../hooks/usePostulant'
 // import { getStringDate, getErrorDetails } from "../../../lib/commonFunctions";
 import { getErrorDetails } from '../../../lib/commonFunctions'
 import {
@@ -17,7 +17,7 @@ import { MessageTitle } from '../styles/UtilsStyles'
 // const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
 const ErrorMessage = (): JSX.Element => {
-  const { error } = usePostulant()
+  const { error } = useUser()
 
   const errorDetails: IError = getErrorDetails(
     error?.graphQLErrors[0]?.extensions.details || emptyError
@@ -26,16 +26,15 @@ const ErrorMessage = (): JSX.Element => {
     <>
       <MessageTitle type="ERROR">
         <I18n
-          id={`app.quoteObtaining.error.${errorDetails.reason}.title`}
+          id={`app.quotes.error.${errorDetails.reason}.title`}
         />
       </MessageTitle>
 
-      <div>
+      <div style={{ color: '#b80000' }}>
         <I18n
-          id={`app.quoteObtaining.error.${errorDetails.reason}.message`}
+          id={`app.quotes.error.${errorDetails.reason}.message`}
         />
       </div>
-      <br />
     </>
   )
 }

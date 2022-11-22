@@ -31,5 +31,7 @@
     "app.postulant.personalData.mobilePhone.subtitle": "Telefono:",
     "app.postulant.personalData.maritalStatus.subtitle": "Estado civil:",
     "app.postulant.personalData.gender.subtitle": "Género:",
-    "app.postulant.personalData.dateOfBirth.subtitle": "Fecha de nacimiento"
+    "app.postulant.personalData.dateOfBirth.subtitle": "Fecha de nacimiento",
+    "app.quotes.error.default.title": "Datos inválidos",
+    "app.quotes.error.default.message": "Usuario y/o contraseña incorrectos."
 }

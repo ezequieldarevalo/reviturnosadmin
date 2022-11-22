@@ -55,7 +55,6 @@ const Query = {
             method: 'GET',
             headers
         }
-        console.log(destinationEndpoint, requestOptions)
         const response = await fetch(destinationEndpoint, requestOptions)
         if (!response.ok) {
             if (response.status === 400) {
@@ -154,7 +153,6 @@ const Mutation = {
             headers,
             body: JSON.stringify(bodyData)
         }
-        console.log(destinationEndpoint, requestOptions)
         const response = await fetch(destinationEndpoint, requestOptions)
         if (!response.ok) {
             if (response.status === 400) {

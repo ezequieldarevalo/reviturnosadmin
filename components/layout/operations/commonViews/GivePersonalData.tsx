@@ -140,10 +140,6 @@ function GivePersonalData(): JSX.Element {
   }
 
   useEffect(() => {
-    console.log()
-  })
-
-  useEffect(() => {
     onChangeEmail(personalData.email)
     onChangeMobilePhone(personalData.mobilePhone)
     setNationality(personalData.nationality)

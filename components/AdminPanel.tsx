@@ -21,7 +21,7 @@ const MenuItem = styled.button`
     background: none;
     display: flex;
     align-items: center;
-    border-bottom: ${(props: IMenuItem) => props.active ? '4px solid black' : 'none'};
+    border-bottom: ${(props: IMenuItem) => props.active ? '4px solid #111831' : 'none'};
     padding: 15px 0 15px 0;
     height: 100%;
     font-size: ${(props: IMenuItem) => props.active ? '17px' : '16px'};

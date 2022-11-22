@@ -17,8 +17,10 @@ export const UserContext = React.createContext({
   backendUrl: '',
   error: {},
   loading: false,
+  restartError: false,
   signIn: (email: string, password: string, plant: string) => ({}),
-  signOut: () => ({})
+  signOut: () => ({}),
+  doRestartError: () => ({})
 })
 
 interface GQLSignInResponse {
@@ -34,14 +36,17 @@ export interface UserContextValue {
   backendUrl: string
   loading: boolean
   error: {}
+  restartError: boolean
   signIn: (email: string, password: string, plant: string) => void
   signOut: () => void
+  doRestartError: () => void
 }
 
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export function UserProvider(props: any): JSX.Element {
   const [user, setUser] = useState<string>('')
   const [backendUrl, setBackendUrl] = useState<string>('')
+  const [restartError, setRestartError] = useState<boolean>(false)
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -52,12 +57,11 @@ export function UserProvider(props: any): JSX.Element {
 
       try {
         const variables = { token: getToken(), plantId: getPlantId() }
+        setRestartError(false)
         return await getWho({
           variables
         })
-      } catch (error) {
-        console.log(error)
-      }
+      } catch { }
     }
     void loadUser()
   }, [])
@@ -65,7 +69,6 @@ export function UserProvider(props: any): JSX.Element {
   const [doSign, { error: errorSignIn, loading: loadingSignIn }] =
     useMutation<GQLSignInResponse>(doSignIn, {
       onError: () => {
-        console.log('error')
       },
       onCompleted: (data: GQLSignInResponse) => {
         const { SignIn: user } = data
@@ -91,6 +94,7 @@ export function UserProvider(props: any): JSX.Element {
     })
 
   const signIn = useCallback(async (email: string, password: string, plantId: string) => {
+    setRestartError(false)
     const variables = {
       email,
       password,
@@ -108,7 +112,11 @@ export function UserProvider(props: any): JSX.Element {
     setBackendUrl('')
   }, [])
 
-  const error = errorSignIn ?? errorWhoAmI
+  const doRestartError = useCallback(() => {
+    setRestartError(true)
+  }, [])
+
+  const error = (!!errorSignIn || errorWhoAmI) && !restartError
 
   const loading = loadingSignIn || loadingWhoAmI
 
@@ -119,9 +127,10 @@ export function UserProvider(props: any): JSX.Element {
       error,
       loading,
       signIn,
-      signOut
+      signOut,
+      doRestartError
     }
-  }, [user, backendUrl, error, loading, signIn, signOut])
+  }, [user, backendUrl, error, loading, signIn, signOut, restartError])
 
   return <UserContext.Provider value={value} {...props} />
 }
