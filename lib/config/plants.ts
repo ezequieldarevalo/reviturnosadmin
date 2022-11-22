@@ -1,6 +1,6 @@
 const plants = [
     {
-        name: 'Revitotal - Las Heras',
+        name: 'Revitotal (Las Heras)',
         id: 'lhrevitotal',
         backendUrl: 'http://lhrevitotal.local'
     },

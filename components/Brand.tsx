@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Truck from './common/icons/Truck'
 
 const BrandContainer = styled.div`
     float: left;
@@ -13,6 +14,8 @@ const BrandContainer = styled.div`
 const Brand = (): JSX.Element => {
   return (
     <BrandContainer>
+      <Truck />
+      &nbsp;
       REVITURNOS
     </BrandContainer>
   )

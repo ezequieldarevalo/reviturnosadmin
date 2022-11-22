@@ -4,6 +4,7 @@ import useUser from '../hooks/useUser'
 import plants from '../lib/config/plants'
 import { Alert, Button, Form, Card } from 'react-bootstrap'
 import ErrorMessage from './common/error/ErrorMessage'
+import LogIn from './common/icons/LogIn'
 
 const defaultSelect = 'Seleccione su planta'
 
@@ -90,6 +91,8 @@ const Login = (): JSX.Element => {
                                     variant={'outline-dark'}
                                     disabled={loading}>
                                     Ingresar
+                                    &nbsp;
+                                    <LogIn />
                                 </Button>
                             </div>
 

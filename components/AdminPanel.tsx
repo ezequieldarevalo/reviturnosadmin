@@ -21,10 +21,11 @@ const MenuItem = styled.button`
     background: none;
     display: flex;
     align-items: center;
-    border-bottom: ${(props: IMenuItem) => props.active ? '4px solid #111831' : 'none'};
+    border-bottom: ${(props: IMenuItem) => props.active ? '4px solid #122463' : 'none'};
+    border-top: ${(props: IMenuItem) => props.active ? '4px solid transparent' : 'none'};
     padding: 15px 0 15px 0;
     height: 100%;
-    font-size: ${(props: IMenuItem) => props.active ? '17px' : '16px'};
+    font-size: 17px;
     font-weight: ${(props: IMenuItem) => props.active ? 'bold' : 'normal'};
     margin-right: 70px;
     ${(props: IMenuItem) => props.active ? '' : 'cursor: pointer;'}

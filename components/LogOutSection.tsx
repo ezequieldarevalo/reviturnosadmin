@@ -2,6 +2,7 @@ import React from 'react'
 import useUser from '../hooks/useUser'
 import styled from 'styled-components'
 import { Button } from 'react-bootstrap'
+import GoOut from './common/icons/GoOut'
 
 const LogOutSectionContainer = styled.div`
   display:flex;
@@ -18,7 +19,9 @@ const LogOutSection = (): JSX.Element => {
         disabled={loading}
         style={{ marginLeft: '15px', fontSize: '13px', padding: '8px' }}
         variant={'danger'} onClick={() => signOut()}>
-        Salir
+        SALIR
+        &nbsp;
+        <GoOut />
       </Button>
     </LogOutSectionContainer>
   )
