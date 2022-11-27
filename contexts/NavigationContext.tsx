@@ -12,7 +12,7 @@ export interface NavigationContextValue {
 
 // eslint-disable-next-line @typescript-eslint/space-before-function-paren
 export function NavigationProvider(props: any): JSX.Element {
-    const [activeSection, setActiveSection] = useState<string>('turnos')
+    const [activeSection, setActiveSection] = useState<string>('todayQuotes')
 
     const setNewActiveSection = useCallback((newSection: string) => {
         setActiveSection(newSection)

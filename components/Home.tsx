@@ -1,16 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
 import LogOutSection from '../components/LogOutSection'
-import AdminPage from './AdminPage'
 import Brand from './Brand'
 import AppName from './AppName'
 import AdminPanel from './AdminPanel'
-import { NavigationProvider } from '../contexts/NavigationContext'
 import useNavigation from '../hooks/useNavigation'
-import ParamPage from './ParamPage'
+import Parameters from './Parameters'
+import { QuotesProvider } from '../contexts/QuotesContext'
+import { NavigationProvider } from '../contexts/NavigationContext'
+import TodayQuotes from './TodayQuotes'
+import FindQuotes from './FindQuotes'
+import NewQuote from './NewQuote'
 
 const HomeContainer = styled.div`
-//font-family
 `
 
 const Top = styled.div`
@@ -26,7 +28,6 @@ const IndexHeader = styled.header`
 `
 
 const IndexMain = styled.main`
-float: left;
   height: 600px;
 `
 const UserState = styled.div`
@@ -36,7 +37,7 @@ const UserState = styled.div`
   line-height: 50px;
 `
 
-const HomeWithoutNavProvider = (): JSX.Element => {
+const HomeContent = (): JSX.Element => {
   const { activeSection } = useNavigation()
   return (
     <HomeContainer>
@@ -50,16 +51,24 @@ const HomeWithoutNavProvider = (): JSX.Element => {
         </Top>
         <AdminPanel />
       </IndexHeader>
-      <IndexMain>
-        {activeSection === 'turnos' && <AdminPage />}
-        {activeSection === 'parametros' && <ParamPage />}
-      </IndexMain>
+      <QuotesProvider>
+        <IndexMain>
+          {activeSection === 'todayQuotes' && <TodayQuotes />}
+          {activeSection === 'findQuotes' && <FindQuotes />}
+          {activeSection === 'newQuote' && <NewQuote />}
+          {activeSection === 'parameters' && <Parameters />}
+        </IndexMain>
+      </QuotesProvider>
     </HomeContainer>
   )
 }
 
-const Home = (): JSX.Element => (<NavigationProvider>
-  <HomeWithoutNavProvider />
-</NavigationProvider>)
+const Home = (): JSX.Element => {
+  return (
+    <NavigationProvider>
+      <HomeContent />
+    </NavigationProvider>
+  )
+}
 
 export default Home

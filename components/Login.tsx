@@ -41,7 +41,7 @@ const Login = (): JSX.Element => {
     }
 
     const handleSubmit = (e: any): void => {
-        e.preventDefault()
+        // e.preventDefault()
         signIn(email, password, plantId)
     }
 
@@ -52,7 +52,7 @@ const Login = (): JSX.Element => {
                 <Card.Body>
                     <Card.Title>Inicio de sesión</Card.Title>
                     <Card.Text>
-                        <Form onSubmit={handleSubmit}>
+                        <Form >
                             <InputGroup className="mb-3">
                                 <InputGroup.Text id="basic-addon1"><Person /></InputGroup.Text>
                                 <Form.Control
@@ -92,8 +92,9 @@ const Login = (): JSX.Element => {
                             </Form.Group>
                             <div style={{ textAlign: 'center' }}>
                                 <Button
-                                    type="submit"
+                                    type="button"
                                     variant={'outline-dark'}
+                                    onClick={handleSubmit}
                                     disabled={loading}>
                                     Ingresar
                                     &nbsp;

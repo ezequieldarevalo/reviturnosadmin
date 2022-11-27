@@ -23,3 +23,16 @@ export const nationalityList = [
     'spanish',
     'swedish'
 ]
+
+export const fieldsForSearch = [
+    {
+        id: 1,
+        value: 'Id',
+        text: 'ID'
+    },
+    {
+        id: 2,
+        value: 'Dominio',
+        text: 'Dominio'
+    }
+]

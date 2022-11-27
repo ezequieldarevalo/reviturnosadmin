@@ -7,6 +7,10 @@ export const getToken = (): string | boolean => {
     return false
 }
 
+export const getStringToken = (): string => {
+    return Cookies.get('token') ?? ''
+}
+
 export const getPlantId = (): string => {
     const plantId = Cookies.get('plantId')
     if (plantId) return plantId

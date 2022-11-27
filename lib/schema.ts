@@ -13,12 +13,19 @@ const typeDefs = gql`
     name: String!
     backendUrl: String!
   }
+  type tQuote {
+    id: String
+  }
+  type GetQuotesResponse {
+    quotes: [tQuote]
+  }
   type PostulantStateResponse {
     state: String!
   }
   type Query {
     getWhoAmI(token: String!, plantId: String!): WhoAmIResponse
     getPostulantState(id: String!, token: String!): PostulantStateResponse
+    getQuotes(plantId: String!, token: String!, inputText: String!): GetQuotesResponse
   }
 
   type Mutation {

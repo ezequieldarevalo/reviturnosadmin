@@ -29,6 +29,7 @@ const MenuItem = styled.button`
     font-weight: ${(props: IMenuItem) => props.active ? 'bold' : 'normal'};
     margin-right: 70px;
     ${(props: IMenuItem) => props.active ? '' : 'cursor: pointer;'}
+    line-height: unset;
 `
 
 const AdminPanel = (): JSX.Element => {
@@ -36,10 +37,22 @@ const AdminPanel = (): JSX.Element => {
     return (
         <NavContainer>
             <MenuItem
-                active={activeSection === 'turnos'}
-                onClick={() => setNewActiveSection('turnos')}
+                active={activeSection === 'todayQuotes'}
+                onClick={() => setNewActiveSection('todayQuotes')}
             >
-                TURNOS
+                HOY
+            </MenuItem>
+            <MenuItem
+                active={activeSection === 'findQuotes'}
+                onClick={() => setNewActiveSection('findQuotes')}
+            >
+                BUSCAR
+            </MenuItem>
+            <MenuItem
+                active={activeSection === 'newQuote'}
+                onClick={() => setNewActiveSection('newQuote')}
+            >
+                NUEVO
             </MenuItem>
             <MenuItem
                 active={activeSection === 'parametros'}
